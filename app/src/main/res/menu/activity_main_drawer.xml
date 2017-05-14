@@ -2,27 +2,39 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="SLATE" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Email" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Maps" />
-    </group>
+        <item android:title="ESSENTIALS">
+            <menu
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <item
+                    android:id="@+id/nav_slate"
+                    android:icon="@drawable/ic_menu_camera"
+                    android:title="SLATE" />
+                <item
+                    android:id="@+id/nav_email"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="Email" />
+                <item
+                    android:id="@+id/nav_maps"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="Maps" />
+                <item
+                    android:id="@+id/nav_programs"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="Programs" />
+            </menu>
+        </item>
 
-    <item
-        android:id="@+id/nav_manage"
-        android:icon="@drawable/ic_menu_manage"
-        android:title="Chat" />
-    <item android:title="Communicate">
+    <item android:title="COMMUNICATE">
         <menu>
+            <item
+                android:id="@+id/nav_chat"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Chat" />
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Contcat Us" />
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"

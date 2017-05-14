@@ -1,6 +1,8 @@
 package com.sheridan.capstone.sheridanmobile20;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -82,13 +84,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_slate) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            String url = "https://slate.sheridancollege.ca";
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
+        } else if (id == R.id.nav_email) {
+            String url = "https://outlook.office365.com/owa/sheridancollege.ca/";
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
+        } else if (id == R.id.nav_maps) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_programs) {
 
         } else if (id == R.id.nav_share) {
 
