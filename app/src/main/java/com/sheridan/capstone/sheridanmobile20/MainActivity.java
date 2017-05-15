@@ -98,7 +98,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_maps) {
 
         } else if (id == R.id.nav_programs) {
-
+            String url = "https://academics.sheridancollege.ca/programs/?s=";
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
