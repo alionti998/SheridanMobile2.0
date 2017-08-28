@@ -86,7 +86,10 @@ public class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_slate) {
+        if (id == R.id.nav_home) {
+            Intent anIntent = new Intent(getApplicationContext(), MainActivity.class);//change this to the class i want to load, map activity
+            startActivity(anIntent);
+        } else if (id == R.id.nav_slate) {
             // Handle the camera action
             String url = "https://slate.sheridancollege.ca";
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
