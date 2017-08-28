@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "741320021251",
+    "firebase_url": "https://sheridanmobile20.firebaseio.com",
+    "project_id": "sheridanmobile20",
+    "storage_bucket": "sheridanmobile20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741320021251:android:f4f84e2b6ef72c44",
+        "android_client_info": {
+          "package_name": "com.sheridan.capstone.sheridanmobile20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741320021251-tj7snu5a3jupatmt24pq4puc5if3erai.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sheridan.capstone.sheridanmobile20",
+            "certificate_hash": "ce32df3656d748d52c52d62fca0c57a6b6439e62"
+          }
+        },
+        {
+          "client_id": "741320021251-22vfv6rl5kmc1ikfidd1ah7hlnoc9en0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCESYz-pz5qcIkyYKqsSVILTcBsf60GLQE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741320021251-22vfv6rl5kmc1ikfidd1ah7hlnoc9en0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
