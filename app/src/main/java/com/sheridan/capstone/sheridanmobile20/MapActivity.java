@@ -1,5 +1,4 @@
 package com.sheridan.capstone.sheridanmobile20;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +27,8 @@ public class MapActivity extends BaseActivity {
     ArrayAdapter<String> adapter, adapter1, adapter2;
     RequestTask rt;
     Spinner spinnerCampus, spinnerBuilding, spinnerFloor;
-    List<String> campusList, buildingList, floorList;
+    List<String> campusNameList, campusCodeList, buildingCodeList, buildingNameList, floorList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,23 +40,25 @@ public class MapActivity extends BaseActivity {
         spinnerBuilding = (Spinner)findViewById(R.id.spinnerBuilding);
         spinnerFloor = (Spinner)findViewById(R.id.spinnerFloor);
 
-        campusList =  new ArrayList<String>();
-        buildingList =  new ArrayList<String>();
+        campusCodeList =  new ArrayList<>();
+        campusNameList =  new ArrayList<>();
+        buildingCodeList =  new ArrayList<>();
+        buildingNameList =  new ArrayList<>();
 
-        campusList.add("TRA");
-        campusList.add("DAV");
-        campusList.add("HMC");
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, campusList);
+        rt = new RequestTask();
+        try {
+            jsonArray = rt.execute("http://xlm.sheridancollege.ca:8080/xlmagic/locationServices/getCampusList").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        returnCampusInfo();
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, campusNameList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCampus.setAdapter(adapter);
-
-        //buildingList.add("tmp");
-        adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, buildingList);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerBuilding.setAdapter(adapter1);
-
-        adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, floorList);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Log.i("test", "finished main");
 
@@ -66,17 +68,17 @@ public class MapActivity extends BaseActivity {
 
                 rt = new RequestTask();
                 try {
-                    jsonArray = rt.execute("http://xlm.sheridancollege.ca:8080/xlmagic/locationServices/getBuildingList?campusCode=" + spinnerCampus.getSelectedItem().toString()).get();
+                    jsonArray = rt.execute("http://xlm.sheridancollege.ca:8080/xlmagic/locationServices/getBuildingList?campusCode=" + campusCodeList.get(i)).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-
-                buildingList = returnMapBasicInfo("buildingCode");
+                returnMapBasicInfo();
                 //adapter1.notifyDataSetChanged();
-                Log.i("test", "list= " + buildingList.toString());
-                adapter1 = new ArrayAdapter<String>(MapActivity.this, android.R.layout.simple_spinner_item, buildingList);
+                //Log.i("test", "list= " + buildingList.toString());
+
+                adapter1 = new ArrayAdapter<String>(MapActivity.this, android.R.layout.simple_spinner_item, buildingNameList);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerBuilding.setAdapter(adapter1);
             }
@@ -85,33 +87,27 @@ public class MapActivity extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
         });
 
-        spinnerBuilding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//building changed
+        spinnerBuilding.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                floorList = returnFloorNumber(buildingCodeList.get(i));
 
-                floorList = returnFloorNumber(spinnerBuilding.getSelectedItem().toString());
-                //adapter1.notifyDataSetChanged();
-               // Log.i("test", "list= " + buildingList.toString());
                 adapter2 = new ArrayAdapter<String>(MapActivity.this, android.R.layout.simple_spinner_item, floorList);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerFloor.setAdapter(adapter2);
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-
+            public void onNothingSelected(AdapterView<?> adapter) {  }
         });
 
         spinnerFloor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//floor changed
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 new DisplayMapImage((ImageView) findViewById(R.id.imageView))
-                        .execute(returnFloorMapUrl(spinnerBuilding.getSelectedItem().toString(), spinnerFloor.getSelectedItem().toString()));
+                        .execute(returnFloorMapUrl(buildingCodeList.get(spinnerBuilding.getSelectedItemPosition()), spinnerFloor.getSelectedItem().toString()));
 
             }
 
@@ -119,14 +115,13 @@ public class MapActivity extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
         });
-
     }
 
-    public List returnMapBasicInfo(String data) {
+    public void returnCampusInfo() {
         JSONObject jsonObj = new JSONObject();
-        List<String> list = new ArrayList<String>();
+        campusNameList = new ArrayList<>();
+        campusCodeList = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
 
             try {
@@ -138,25 +133,46 @@ public class MapActivity extends BaseActivity {
 
             try {
                 // String buildingCode = jsonObj.getString("buildingCode");
-                list.add(jsonObj.getString(data));
-                //Log.i("test", "code= " + jsonObj.getString(data));
-                //Log.i("test", "data: " + list);
+                campusNameList.add(jsonObj.getString("campusName"));
+                campusCodeList.add(jsonObj.getString("campusCode"));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        return list;
+    }
+
+    public void returnMapBasicInfo() {
+        JSONObject jsonObj = new JSONObject();
+        buildingCodeList = new ArrayList<>();
+        buildingNameList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            try {
+                jsonObj = jsonArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //Log.i("test", "obj: " + jsonObj);
+
+            try {
+                // String buildingCode = jsonObj.getString("buildingCode");
+                buildingCodeList.add(jsonObj.getString("buildingCode"));
+                buildingNameList.add(jsonObj.getString("buildingName"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public List returnFloorNumber (String buildingCode) {
-        JSONObject jsonObj = new JSONObject();
+        JSONObject jsonObj, jsonObj2;
         List<String> list = new ArrayList<String>();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 jsonObj = jsonArray.getJSONObject(i);
-
-                JSONObject jsonObj2 = new JSONObject();
 
                 JSONArray jsonArray2 = jsonObj.optJSONArray("floors");
                 for (int j = 0; j < jsonArray2.length(); j++) {
@@ -167,7 +183,6 @@ public class MapActivity extends BaseActivity {
                         list.add(String.valueOf(j + 1));
                     }
                   //  Log.i("test", "obj: " + jsonObj2);
-
                     //  Log.i("test", "data: " + list);
                 }
             }
@@ -178,14 +193,11 @@ public class MapActivity extends BaseActivity {
     }
 
     public String returnFloorMapUrl (String buildingCode, String floorCode) {
-        JSONObject jsonObj = new JSONObject();
-        //List<String> list = new ArrayList<String>();
+        JSONObject jsonObj, jsonObj2;
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 jsonObj = jsonArray.getJSONObject(i);
-
-                    JSONObject jsonObj2 = new JSONObject();
 
                     JSONArray jsonArray2 = jsonObj.optJSONArray("floors");
                     for (int j = 0; j < jsonArray2.length(); j++) {
@@ -197,8 +209,6 @@ public class MapActivity extends BaseActivity {
                             return jsonObj2.getString("floorMapUrl");
                         }
                       //  Log.i("test", "obj: " + jsonObj2);
-
-                      //  Log.i("test", "data: " + list);
                     }
                 }
         } catch (JSONException e) {
@@ -214,11 +224,9 @@ class RequestTask extends AsyncTask<String, Void, JSONArray> {
     protected JSONArray doInBackground(String... urlString) {
         String jsonString;
 
-        // Log.i("test", "test");
-
-        HttpURLConnection urlConnection = null;
-        URL url = null;
-        BufferedReader br = null;
+        HttpURLConnection urlConnection;
+        URL url;
+        BufferedReader br;
         StringBuilder sb = null;
         try {
             url = new URL(urlString[0]);
