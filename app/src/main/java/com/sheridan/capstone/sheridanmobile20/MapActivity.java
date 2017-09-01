@@ -180,7 +180,7 @@ public class MapActivity extends BaseActivity {
                     jsonObj2 = jsonArray2.getJSONObject(j);
 
                     if (jsonObj2.getString("buildingCode").equals(buildingCode)) {
-                        list.add(String.valueOf(j + 1));
+                        list.add(jsonObj2.getString("floorCode"));
                     }
                   //  Log.i("test", "obj: " + jsonObj2);
                     //  Log.i("test", "data: " + list);
