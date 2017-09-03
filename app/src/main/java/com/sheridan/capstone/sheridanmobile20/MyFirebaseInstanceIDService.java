@@ -2,6 +2,7 @@ package com.sheridan.capstone.sheridanmobile20;
 
 /**
  * Created by Anthony Lionti on 2017-08-28.
+ * Used for advanced Firebase messaging such as groups (currently not implemented)
  */
 
 import android.util.Log;

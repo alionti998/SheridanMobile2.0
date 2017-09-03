@@ -1,11 +1,14 @@
 package com.sheridan.capstone.sheridanmobile20;
 
+/**
+ * Main screen
+ */
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
@@ -15,22 +18,19 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-//Anthony Test commit 1
-//content_main will be the home screen. it will have a news/alerts section provided by Android WebView/HTML
-
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     WebView webview;
-    String resourceURL = "http://liontia.dev.fast.sheridanc.on.ca/Capstone/";
+    String resourceURL = "https://sheridanmobile20.firebaseapp.com/";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 
         super.onCreate(savedInstanceState);
-        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
-        getLayoutInflater().inflate(R.layout.content_main, contentFrameLayout);
+        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml for the drawer
+        getLayoutInflater().inflate(R.layout.content_main, contentFrameLayout);//the xml with the content for this activity
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);//the floating button (add per activity)
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,10 +44,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.container);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.container);//swipe down refresh
+        mSwipeRefreshLayout.setOnRefreshListener(this);//listener for swipe down
 
-        webview = (WebView) findViewById(R.id.webViewHome);
+        webview = (WebView) findViewById(R.id.webViewHome);//web view to display url in activity
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh() { //if pull down to refresh
         Log.i("test", "refreshing");
         webview.loadUrl(resourceURL);//use html file and resources from my webspace
         mSwipeRefreshLayout.setRefreshing(false);

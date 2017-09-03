@@ -1,4 +1,10 @@
 package com.sheridan.capstone.sheridanmobile20;
+
+/**
+ * This class is for campus maps
+ * gets information from json from http://xlm.sheridancollege.ca which is where map data is stored
+ */
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -106,7 +112,7 @@ public class MapActivity extends BaseActivity {
         spinnerFloor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//floor changed
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                new DisplayMapImage((ImageView) findViewById(R.id.imageView))
+                new DisplayURLImage((ImageView) findViewById(R.id.imageView))
                         .execute(returnFloorMapUrl(buildingCodeList.get(spinnerBuilding.getSelectedItemPosition()), spinnerFloor.getSelectedItem().toString()));
 
             }
@@ -218,6 +224,7 @@ public class MapActivity extends BaseActivity {
     }
 }
 
+//get json from url, must be done in separate class
 class RequestTask extends AsyncTask<String, Void, JSONArray> {
     JSONArray jsonArray;
     @Override

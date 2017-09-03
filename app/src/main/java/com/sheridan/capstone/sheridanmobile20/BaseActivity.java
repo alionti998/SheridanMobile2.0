@@ -18,6 +18,8 @@ import android.view.View;
 
 /**
  * Created by Anthony Lionti on 2017-08-25.
+ * This class controls the actions for the nav drawer
+ * Extend your activity to this class if you want your activity to include the nav drawer
  */
 
 public class BaseActivity extends AppCompatActivity
@@ -75,6 +77,8 @@ public class BaseActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent anIntent = new Intent(getApplicationContext(), SettingsActivity.class);//change this to the class i want to load, map activity
+            startActivity(anIntent);
             return true;
         }
 
@@ -111,7 +115,11 @@ public class BaseActivity extends AppCompatActivity
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(this, Uri.parse(url));
         } else if (id == R.id.nav_share) {
-
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0");
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0"));
         } else if (id == R.id.nav_send) {
 
         }

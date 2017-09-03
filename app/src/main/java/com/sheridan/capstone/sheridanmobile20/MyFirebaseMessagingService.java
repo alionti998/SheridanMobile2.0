@@ -8,6 +8,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 /**
  * Created by Anthony Lionti on 2017-08-28.
+ * Used for advanced Firebase messaging such as groups (currently not implemented)
  */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {//not used yet

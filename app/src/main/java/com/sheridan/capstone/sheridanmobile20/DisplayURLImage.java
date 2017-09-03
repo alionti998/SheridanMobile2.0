@@ -10,13 +10,15 @@ import java.io.InputStream;
 
 /**
  * Created by Anthony Lionti on 2017-08-26.
+ * This class displays an image in a imageview from a url
+ * To use it: new DisplayURLImage(ImageView imageview).execute(String url);
  */
 
-public class DisplayMapImage extends AsyncTask<String, Void, Bitmap> {
+public class DisplayURLImage extends AsyncTask<String, Void, Bitmap> {
 
     ImageView bmImage;
 
-    public DisplayMapImage(ImageView bmImage) {
+    public DisplayURLImage(ImageView bmImage) {
         this.bmImage = bmImage;
     }
 
