@@ -20,6 +20,7 @@ Improvements from official app:
 - Security: many portions of app will be secured with https and valid security certificate
 - Modern: App will use modern technologies used today for a better experience
 - Google Analytics will be used to see how users interact with the app
+- Real-time fatal crash data via Firebase
 
 Technologies to be used:
 - Core: Android studio for app development and features
