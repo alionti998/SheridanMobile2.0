@@ -18,3 +18,21 @@ img {
 .container {
     padding: 2px 16px;
 }
+
+body {
+    background-image: url("sheridan_background.JPG1");
+}
+
+.main {
+    background-color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+	color: #000000;
+}
+
+#alert-global {
+    background-color: Red;
+	color: White;
+}

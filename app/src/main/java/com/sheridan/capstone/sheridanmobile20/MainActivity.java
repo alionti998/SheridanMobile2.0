@@ -23,6 +23,7 @@ import com.google.firebase.crash.FirebaseCrash;
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     WebView webview;
     String resourceURL = "https://sheridanmobile20.firebaseapp.com/";
+    //String resourceURL = "file:///android_asset/news/index.html";// for Android assets html, javascript does not work with local resources
     private SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,9 +75,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         });
 
         webview.loadUrl(resourceURL);//use html file and resources from my webspace
-        //webview.loadUrl("file:///android_asset/news/index.html");//use html file and resources from local Android file system (assets)
-
-        //setContentView(mWebview );
 
     }
 
