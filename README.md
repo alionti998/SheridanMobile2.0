@@ -19,6 +19,7 @@ Features our app will have are:
 Improvements from official app:
 - Security: many portions of app will be secured with https and valid security certificate
 - Modern: App will use modern technologies used today for a better experience
+- Improved JAVACAM experience
 - Google Analytics will be used to see how users interact with the app
 - Real-time fatal crash data via Firebase
 
@@ -27,3 +28,4 @@ Technologies to be used:
 - Firebase: Will be used to enhance the app and bring additional features such as notifications and web hosting (see https://firebase.google.com/)
 - Web app integration: Will be used to deliver active content
 
+***This list is not final. Check back for more updates
