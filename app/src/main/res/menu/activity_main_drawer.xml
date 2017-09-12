@@ -23,6 +23,10 @@
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_item_4" />
             <item
+                android:id="@+id/nav_javacam"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="JAVACAM" />
+            <item
                 android:id="@+id/nav_programs"
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_item_5" />

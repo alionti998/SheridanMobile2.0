@@ -108,7 +108,10 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_maps) {
             Intent anIntent = new Intent(getApplicationContext(), MapActivity.class);//change this to the class i want to load, map activity
             startActivity(anIntent);
-           // drawer.closeDrawers();
+            // drawer.closeDrawers();
+        } else if (id == R.id.nav_javacam) {
+                Intent anIntent = new Intent(getApplicationContext(), JavaCamActivity.class);//change this to the class i want to load, map activity
+                startActivity(anIntent);
         } else if (id == R.id.nav_programs) {
             String url = "https://academics.sheridancollege.ca/programs/?s=";
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
