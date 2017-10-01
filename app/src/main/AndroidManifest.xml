@@ -39,8 +39,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sheridan.capstone.sheridanmobile20.MainActivity" />
         </activity>
-        <activity android:name=".JavaCamActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".JavaCamActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChooserActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GoogleSignInActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

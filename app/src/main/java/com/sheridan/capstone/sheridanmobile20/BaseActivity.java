@@ -1,20 +1,25 @@
 package com.sheridan.capstone.sheridanmobile20;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by Anthony Lionti on 2017-08-25.
@@ -24,8 +29,13 @@ import android.view.View;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    String userinfo;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    public ProgressDialog mProgressDialog;
+    private FirebaseAuth mAuth;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -49,6 +59,29 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //authentication
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        TextView navUsername;
+        TextView navName;
+
+        navUsername = (TextView) findViewById(R.id.nav_email);
+        navName = (TextView) findViewById(R.id.nav_name);
+
+     /*   if (currentUser != null) {
+            Log.i("test", "not null");
+
+            navUsername.setText(currentUser.getDisplayName());
+            navName.setText(currentUser.getDisplayName());
+        } else {
+
+
+            /*navUsername.setText(currentUser.getEmail());
+            navName.setText(currentUser.getDisplayName());*/
+      //  }
+
     }
 
     @Override
@@ -80,6 +113,10 @@ public class BaseActivity extends AppCompatActivity
             Intent anIntent = new Intent(getApplicationContext(), SettingsActivity.class);//change this to the class i want to load, map activity
             startActivity(anIntent);
             return true;
+        } else if (id == R.id.action_login) {
+            Intent anIntent = new Intent(getApplicationContext(), ChooserActivity.class);//change this to the class i want to load, map activity
+            startActivity(anIntent);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -90,41 +127,59 @@ public class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        String url;
+        CustomTabsIntent.Builder builder;
+        Intent anIntent;
+        CustomTabsIntent customTabsIntent;
 
-        if (id == R.id.nav_home) {
-            Intent anIntent = new Intent(getApplicationContext(), MainActivity.class);//change this to the class i want to load, map activity
-            startActivity(anIntent);
-        } else if (id == R.id.nav_slate) {
-            // Handle the camera action
-            String url = "https://slate.sheridancollege.ca";
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-        } else if (id == R.id.nav_email) {
-            String url = "https://outlook.office365.com/owa/sheridancollege.ca/";
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-        } else if (id == R.id.nav_maps) {
-            Intent anIntent = new Intent(getApplicationContext(), MapActivity.class);//change this to the class i want to load, map activity
-            startActivity(anIntent);
-            // drawer.closeDrawers();
-        } else if (id == R.id.nav_javacam) {
-                Intent anIntent = new Intent(getApplicationContext(), JavaCamActivity.class);//change this to the class i want to load, map activity
+        switch (id) {
+            case R.id.nav_home:
+                anIntent = new Intent(getApplicationContext(), MainActivity.class);//change this to the class i want to load, map activity
                 startActivity(anIntent);
-        } else if (id == R.id.nav_programs) {
-            String url = "https://academics.sheridancollege.ca/programs/?s=";
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-        } else if (id == R.id.nav_share) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0");
-            sendIntent.setType("text/plain");
-            startActivity(Intent.createChooser(sendIntent, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0"));
-        } else if (id == R.id.nav_send) {
+                break;
+            case R.id.nav_slate:
+                url = "https://slate.sheridancollege.ca";
+                builder = new CustomTabsIntent.Builder();
+                customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
+                break;
+            case R.id.nav_email:
+                url = "https://outlook.office365.com/owa/sheridancollege.ca/";
+                builder = new CustomTabsIntent.Builder();
+                customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
+                break;
+            case R.id.nav_maps:
+                anIntent = new Intent(getApplicationContext(), MapActivity.class);//change this to the class i want to load, map activity
+                startActivity(anIntent);
+                // drawer.closeDrawers();
+                break;
+            case R.id.nav_javacam:
+                anIntent = new Intent(getApplicationContext(), JavaCamActivity.class);//change this to the class i want to load, map activity
+                startActivity(anIntent);
+                break;
+            case R.id.nav_programs:
+                url = "https://academics.sheridancollege.ca/programs/?s=";
+                builder = new CustomTabsIntent.Builder();
+                customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
+                break;
+            case R.id.nav_share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Share Sheridan Mobile 2.0 with your fellow classmates and faculty. Visit our official GitHub at https://github.com/alionti998/SheridanMobile2.0"));
+                break;
+            case R.id.nav_as:
+                url = "https://access.sheridaninstitute.ca";
+                builder = new CustomTabsIntent.Builder();
+                customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
+                break;
+            case R.id.nav_send:
 
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,5 +192,27 @@ public class BaseActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
 
         toggle.syncState();
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideProgressDialog();
     }
 }

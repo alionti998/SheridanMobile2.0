@@ -11,14 +11,6 @@
                 android:icon="@drawable/ic_menu_camera"
                 android:title="@string/nav_item_1" />
             <item
-                android:id="@+id/nav_slate"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/nav_item_2" />
-            <item
-                android:id="@+id/nav_email"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/nav_item_3" />
-            <item
                 android:id="@+id/nav_maps"
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_item_4" />
@@ -27,18 +19,36 @@
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="JAVACAM" />
             <item
-                android:id="@+id/nav_programs"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/nav_item_5" />
+                android:id="@+id/nav_chat"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/nav_item_6" />
         </menu>
     </item>
 
     <item android:title="@string/menu_header_2">
         <menu>
             <item
-                android:id="@+id/nav_chat"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/nav_item_6" />
+                android:id="@+id/nav_slate"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/nav_item_2" />
+            <item
+                android:id="@+id/nav_email"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/nav_item_3" />
+            <item
+                android:id="@+id/nav_as"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="AccessSheridan" />
+            <item
+                android:id="@+id/nav_programs"
+                android:icon="@drawable/ic_menu_slideshow"
+                android:title="@string/nav_item_5" />
+        </menu>
+    </item>
+    <item android:title="@string/menu_header_3">
+        <menu
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_menu_share"
