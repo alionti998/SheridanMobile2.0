@@ -8,19 +8,19 @@
             android:layout_height="wrap_content">
             <item
                 android:id="@+id/nav_home"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@android:drawable/ic_dialog_dialer"
                 android:title="@string/nav_item_1" />
             <item
                 android:id="@+id/nav_maps"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@android:drawable/ic_dialog_map"
                 android:title="@string/nav_item_4" />
             <item
                 android:id="@+id/nav_javacam"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_menu_camera"
                 android:title="JAVACAM" />
             <item
                 android:id="@+id/nav_chat"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@android:drawable/stat_notify_chat"
                 android:title="@string/nav_item_6" />
         </menu>
     </item>
@@ -29,19 +29,19 @@
         <menu>
             <item
                 android:id="@+id/nav_slate"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_item_2" />
             <item
                 android:id="@+id/nav_email"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_item_3" />
             <item
                 android:id="@+id/nav_as"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/ic_menu_slideshow"
                 android:title="AccessSheridan" />
             <item
                 android:id="@+id/nav_programs"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@android:drawable/ic_search_category_default"
                 android:title="@string/nav_item_5" />
         </menu>
     </item>
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content">
             <item
                 android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@android:drawable/stat_sys_phone_call"
                 android:title="@string/nav_item_7" />
             <item
                 android:id="@+id/nav_share"

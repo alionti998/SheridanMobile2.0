@@ -3,6 +3,7 @@ package com.sheridan.capstone.sheridanmobile20;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -17,9 +18,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteOrder;
 
 /**
  * Created by Anthony Lionti on 2017-08-25.
@@ -27,14 +34,14 @@ import com.google.firebase.auth.FirebaseUser;
  * Extend your activity to this class if you want your activity to include the nav drawer
  */
 
-public class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     String userinfo;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     public ProgressDialog mProgressDialog;
     private FirebaseAuth mAuth;
-
+   // private Menu myMenu;
+    FirebaseUser user;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,28 +66,37 @@ public class BaseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        View header = navigationView.getHeaderView(0);
         //authentication
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        TextView navUsername;
-        TextView navName;
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-        navUsername = (TextView) findViewById(R.id.nav_email);
-        navName = (TextView) findViewById(R.id.nav_name);
+        TextView navEmail = (TextView) header.findViewById(R.id.nav_email);
+        TextView navName = (TextView) header.findViewById(R.id.nav_name);
+        String displayName = "";
 
-     /*   if (currentUser != null) {
-            Log.i("test", "not null");
+        if (user != null) {
+            if (user.getDisplayName() == null || user.getDisplayName() == "") {
+                String[] parts = user.getEmail().split("@");
+                displayName = parts[0];
+                //navName.setText(parts[0]);
+            } else {
+                displayName = user.getDisplayName();
+                //navName.setText(user.getDisplayName());
+            }
 
-            navUsername.setText(currentUser.getDisplayName());
-            navName.setText(currentUser.getDisplayName());
+            if (!user.isEmailVerified()) {
+                displayName += " (Not Verified)";
+            }
+
+            navName.setText(displayName);
+            navEmail.setText(user.getEmail());
+
         } else {
 
-
-            /*navUsername.setText(currentUser.getEmail());
-            navName.setText(currentUser.getDisplayName());*/
-      //  }
+            navEmail.setText("Not signed in");
+            navName.setText("Anonymous");
+        }
 
     }
 
@@ -97,7 +113,25 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        //myMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+        if(this instanceof MapActivity) {
+            menu.add(0, 0, 0, "Location").setIcon(android.R.drawable.ic_menu_mylocation).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+        return true;
+
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        MenuItem item = menu.findItem(R.id.action_login);
+
+        if (user != null) {
+            item.setTitle("Sign Out");
+        } else {
+            item.setTitle("Sign In");
+        }
+
         return true;
     }
 
@@ -116,6 +150,30 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.action_login) {
             Intent anIntent = new Intent(getApplicationContext(), ChooserActivity.class);//change this to the class i want to load, map activity
             startActivity(anIntent);
+
+        } else if (id == 0) {
+            Toast.makeText(this, "Retrieving your location...", Toast.LENGTH_SHORT).show();
+
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+            int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
+
+            // Convert little-endian to big-endianif needed
+        if (ByteOrder.nativeOrder().equals(ByteOrder.LITTLE_ENDIAN)) {
+            ipAddress = Integer.reverseBytes(ipAddress);
+        }
+
+        byte[] ipByteArray = BigInteger.valueOf(ipAddress).toByteArray();
+
+        String ipAddressString;
+        try {
+            ipAddressString = InetAddress.getByAddress(ipByteArray).getHostAddress();
+        } catch (UnknownHostException ex) {
+            Log.e("WIFIIP", "Unable to get host address.");
+            Toast.makeText(this, "Unable to get host address.", Toast.LENGTH_SHORT).show();
+            ipAddressString = null;
+        }
+        Log.i("LOCAL IP ADDRESS", ipAddressString);
+        Toast.makeText(this, "LOCAL IP ADDRESS " + ipAddressString, Toast.LENGTH_SHORT).show();
 
         }
 
