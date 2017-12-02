@@ -48,9 +48,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GoogleSignInActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EmailPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".NewPostActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".PostDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".PostMain"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

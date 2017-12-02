@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.sheridan.capstone.sheridanmobile20.models.User;
 
 public class EmailPasswordActivity extends BaseActivity implements
         View.OnClickListener {
@@ -25,6 +28,8 @@ public class EmailPasswordActivity extends BaseActivity implements
     private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
+    private DatabaseReference mDatabase;
+
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -50,6 +55,8 @@ public class EmailPasswordActivity extends BaseActivity implements
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         // [END initialize_auth]
     }
 
@@ -81,6 +88,8 @@ public class EmailPasswordActivity extends BaseActivity implements
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            sendEmailVerification();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -114,6 +123,9 @@ public class EmailPasswordActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String username = usernameFromEmail(user.getEmail());
+
+                            writeNewUser(user.getUid(), username, user.getEmail());
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -225,6 +237,20 @@ public class EmailPasswordActivity extends BaseActivity implements
             signOut();
         } else if (i == R.id.verify_email_button) {
             sendEmailVerification();
+        }
+    }
+
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mDatabase.child("users").child(userId).setValue(user);
+    }
+
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
         }
     }
 }
