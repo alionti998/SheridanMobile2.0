@@ -229,10 +229,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 if (user != null && user.isEmailVerified()) {
                     anIntent = new Intent(getApplicationContext(), PostMain.class);//change this to the class i want to load, map activity
                     startActivity(anIntent);
-                } else if (!user.isEmailVerified()) {
-                    Toast.makeText(this, "Can't use chat without verifying your account", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (user == null) {
                     Toast.makeText(this, "Can't use chat without signing in", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Can't use chat without verifying your account", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.nav_programs:
