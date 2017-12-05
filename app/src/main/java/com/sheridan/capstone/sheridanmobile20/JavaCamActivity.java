@@ -4,7 +4,6 @@ package com.sheridan.capstone.sheridanmobile20;
  * Main screen
  */
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -17,8 +16,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.google.firebase.crash.FirebaseCrash;
 
 public class JavaCamActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     WebView webview;

@@ -18,8 +18,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.google.firebase.crash.FirebaseCrash;
-
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     WebView webview;
     String resourceURL = "http://liontia.dev.fast.sheridanc.on.ca/Capstone/";

@@ -1,27 +1,16 @@
 package com.sheridan.capstone.sheridanmobile20.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.Toast;
-
-import com.sheridan.capstone.sheridanmobile20.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,10 +22,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.Context.WIFI_SERVICE;
@@ -68,11 +53,11 @@ public class LocationFragment extends DialogFragment {
             ipAddressString = InetAddress.getByAddress(ipByteArray).getHostAddress();
         } catch (UnknownHostException ex) {
             Log.e("WIFIIP", "Unable to get host address.");
-            Toast.makeText(getContext(), "Unable to get host address.", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getContext(), "Unable to get host address.", Toast.LENGTH_SHORT).show();
             ipAddressString = null;
         }
-        Log.i("LOCAL IP ADDRESS", ipAddressString);
-        Toast.makeText(getContext(), "LOCAL IP ADDRESS " + ipAddressString, Toast.LENGTH_SHORT).show();
+//        Log.i("LOCAL IP ADDRESS", ipAddressString);
+    //    Toast.makeText(getContext(), "LOCAL IP ADDRESS " + ipAddressString, Toast.LENGTH_SHORT).show();
 
         rt = new RequestTask();
         try {
@@ -83,9 +68,18 @@ public class LocationFragment extends DialogFragment {
             e.printStackTrace();
         }
 
+        String message = "";
+
+        if (jsonArray == null) {
+            message = "Could not retrieve your location right now";
+        } else {
+            returnLocationInfo();
+            message = "Campus: " + campus + " Room: " + room + " Description: " + roomType;
+        }
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(jsonArray.toString())
+        builder.setMessage(message).setTitle("Campus Location")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
@@ -94,7 +88,7 @@ public class LocationFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void returnCampusInfo() { //this may need to be changed, when the api starts working again
+    public void returnLocationInfo() { //this may need to be changed, when the api starts working again
         JSONObject jsonObj = new JSONObject();
         for (int i = 0; i < jsonArray.length(); i++) {
 
@@ -124,7 +118,7 @@ class RequestTask extends AsyncTask<String, Void, JSONArray> {
 
     @Override
     protected JSONArray doInBackground(String... urlString) {
-        String jsonString;
+        String jsonString = null;
 
         HttpURLConnection urlConnection;
         URL url;
@@ -154,6 +148,10 @@ class RequestTask extends AsyncTask<String, Void, JSONArray> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (jsonString == null) {
+            return null;
         }
 
         jsonString = sb.toString();

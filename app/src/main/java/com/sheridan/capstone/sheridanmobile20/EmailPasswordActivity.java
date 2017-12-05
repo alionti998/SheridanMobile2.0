@@ -1,5 +1,6 @@
 package com.sheridan.capstone.sheridanmobile20;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -127,6 +128,9 @@ public class EmailPasswordActivity extends BaseActivity implements
 
                             writeNewUser(user.getUid(), username, user.getEmail());
                             updateUI(user);
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

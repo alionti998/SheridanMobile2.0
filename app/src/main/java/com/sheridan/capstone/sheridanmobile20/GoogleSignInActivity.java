@@ -136,6 +136,9 @@ public class GoogleSignInActivity extends BaseActivity implements
                             updateUI(user);
                             //String username = usernameFromEmail(user.getEmail());
                             writeNewUser(user.getUid(), user.getDisplayName(), user.getEmail());
+                            Intent intent = getIntent();
+                            finish();
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
