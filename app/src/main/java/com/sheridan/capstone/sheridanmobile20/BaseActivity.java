@@ -169,7 +169,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "LOCAL IP ADDRESS " + ipAddressString, Toast.LENGTH_SHORT).show();*/
 
             LocationFragment newFragment = new LocationFragment();
-            newFragment.show(getSupportFragmentManager(), "missiles");
+            newFragment.show(getSupportFragmentManager(), "location");
 
         }
 
@@ -243,7 +243,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 customTabsIntent.launchUrl(this, Uri.parse(url));
                 break;
             case R.id.nav_send:
-
+                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                emailIntent.setType("plain/text");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "infosheridan@sheridaninstitute.ca" });
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Type in your enquiry]");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "[Please add details along with your full name, student ID#, program and any other information so that we can help you better. " +
+                        "Replies may take up to 2 business days or longer during the start of term]");
+                getApplicationContext().startActivity(Intent.createChooser(emailIntent, "Email Sheridan"));
+                break;
+            case R.id.nav_contact:
+                url = "https://www.sheridancollege.ca/about";
+                builder = new CustomTabsIntent.Builder();
+                customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
                 break;
         }
 
